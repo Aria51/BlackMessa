@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <link rel="stylesheet" type="text/css" href="jquery-ui.css">
+        <script src="jquery-3.2.1.min.js"></script>
+        <script src="jquery-ui.js"></script>
+        <script src="main_form.js"></script>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+ <select id="countries">
+    <option disabled>Выберите страну</option>
+</select>
+<p>-----------</p>
+<textarea id="testo"></textarea>
+<div id="testo1"></div>
+<p>-----------</p>
+<fieldset>
+	<legend>Пользователи</legend>
+<table id="users">
+    <tr><td>Id</td><td>Имя</td><td>Возраст</td><td>Страна</td><tr>
+</table>
+</fieldset>
+<script type="text/javascript">
+
+
+$(function(){
+	$.get('http://localhost:9092/test',function(data){
+		$('#testo').text(JSON.stringify(data));
+	})
+	}	
+)
+
+
+getFileName('countries');
+
+
+getNameUser();
+
+var user ={
+	name:"Thom",
+	age:26,
+	display: function(){
+		console.log(this.name);
+		console.log(this.age);
+	}
+};
+user.display();
+
+
+
+
+
+
+
+
+var browser, uAgent = navigator.userAgent;
+ 
+if(uAgent.indexOf("Chrome") > -1) {
+    browser = "Google Chrome";
+} else if (uAgent.indexOf("Safari") > -1) {
+    browser = "Apple Safari";
+} else if (uAgent.indexOf("Opera") > -1) {
+    browser = "Opera";
+} else if (uAgent.indexOf("Firefox") > -1) {
+    browser = "Mozilla Firefox";
+} else if (uAgent.indexOf("MSIE") > -1) {
+    browser = "Microsoft Internet Explorer";
+}
+document.write(browser);
+
+</script>
+    </body>
+</html>
