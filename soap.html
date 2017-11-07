@@ -1,134 +1,166 @@
 <html>
     <head>
         <title>Terminator v.T-1</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="jquery-3.2.1.min.js"></script>   
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="soap.js"></script>
         <script src='js/utils/JsonUtils.js'></script>
         <script src="js/connectionSetting.js"></script>
+        <script src="js/utils/notificationHelper.js"></script>
+        <script src="js/formViewMocActionCore.js"></script>
+        <script src="js/formMockHosts.js"></script>
+        <script src="setting/hosts.js"></script>
         <link rel="stylesheet" type="text/css" href="blackMessa_menu.css">    
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="js/utils/jquery.bootstrap-growl.min.js"></script>
     </head>
     <body>
-<!--Меню -->
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">BlackMessa</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#" id="showdiv1">Home</a></li>
-      <li><a href="#" id="showdiv4">Edit</a></li>      
-    </ul>
-  </div>
-</nav>
-
-<!--<div class="buttons">
-  <a class="button" id="showdiv1">Menu 1</a>
-  <a class="button" id="showdiv2">Menu 2</a>
-  <a class="button" id="showdiv3">Edit</a>
-  <a class="button" id="showdiv4">Menu 4</a>
-</div> -->
- <p></p>
- <p></p>
-
- <!--Общая таблица с сервисами -->
-<div id="div1" class="container">
-<table id="users" class="table">    
-    <thead id="userHead"></thead>
-    <tbody id="userBody"></tbody>
-    </table>
-</div>
- <!--Конец. Общая таблица с сервисами -->
-
- <!--Общая таблица с сервисами -->
-<div id="div2" style="display:none;">
-    <input type="text" id="tes">
-    <button id="btn1">jQuery</button>
-    <input type="checkbox" id="checkbox1" class="checkboxx"/> <br />
-    <input type="text" id="textbox1" />
-</div>
- <!--Конец. Общая таблица с сервисами -->
-
-<div id="div3" style="display:none;">
-    <div class="container">
-        
-            <p id="sName">FSSP_GET</p>
-            <label for "text_info">Описание</label>
-            <textarea id="text_info">Описание сервиса</textarea><br>
-            <label for "text_code">Код ответа</label>
-            <input type="textarea" name="" id="text_code" size="3" maxlength="3" /><br>
-            <label for "select_file">Файл ответа</label>
-            <select id="select_file">
-                <option id="11"selected>123123</option>
-                <option id="12"selected>123123</option>
-                <option id="13"selected>123123</option>
-            </select><br>
-            <label for "select_file1">Файл ответа1</label>
-            <select id="select_file1">                
-                <option id="12"selected>123123</option>
-            </select>       
-    </div>
-</div>
-
-
-<div id="div4" style="display:none;">
-    <!-- =============================== -->
-    <!--    Редактирование сервиса       -->
-    <!-- =============================== -->
-
-    <div class="container">    
-        <form action="#" accept-charset="utf-8" id="sendEditForm">
-            <div class="input-group">
-                <span class="input-group-addon">Название:</span>
-                <input type="text" name="actionName" value="FSSP_GET" readonly="true" class="form-control" id="a_name">            
+        <!--Меню -->
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">BlackMessa</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#" id="showdiv4">Выбор окружения</a></li> 
+                    <li><a href="#" id="showdiv1">Home</a></li>
+                    <!--<li><a href="#" id="showdiv4">Edit</a></li>      -->
+                    <!-- <li><a href="#" id="editTextResponce">Тест</a></li>      -->
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-flag"></span>localhost</a></li>
+                </ul>
             </div>
-            <br>
+        </nav>
+
+        <p></p>
+        <p></p>
+
+        <div id="div7" class="container">
+            <table class="table">
+                <thead id="hostListHead">
+                    <tr>
+                        <th>Название</th>
+                        <th>URL</th>
+                        <th>Status</th>                                                
+                        <th>Select</th>
+                    </tr>
+                </thead>
+                <tbody id="hostList"></tbody>
+            </table>
+            <button id="testt">OK</button>
+            <button id="testt1">OK</button>
+        </div>
+
+
+
+        <!--Общая таблица с сервисами -->
+        <div id="div1" class="container" style="display:none;">
             <div class="input-group">
-                <span class="input-group-addon">Описание:</span>            
-                <!--<input type="textarea" name="actionDescription" value="123" class="form-control">-->
-                <textarea name="actionDescription" value="1233" class="form-control" id="a_description"></textarea>            
+                <span class="input-group-addon"> Поиск</span>
+                <input class="form-control" id="myInput" type="text" placeholder="Поиск..">
             </div>
-            <br>        
-            <div class="input-group">
-                <span class="input-group-addon">Код ответа:</span>
-                <input type="text" name="actionStatusCode" value="200" size="3" maxlength="3" class="form-control" id="a_statusCode">    
-            </div>   
-            <br>
-            <div class="input-group">
-                <span class="input-group-addon">Папка</span>
-                <input type="text" name="actionResponceFolder" value="FSSP" readonly="true" class="form-control" id="a_respFolder">
+    
+            <table id="users" class="table">    
+                <thead id="userHead"></thead>
+                <tbody id="userBody"></tbody>
+            </table>
+        </div>
+        <!--Конец. Общая таблица с сервисами -->
+
+
+        <!-- =============================== -->
+        <!--    Редактирование сервиса       -->
+        <!-- =============================== -->    
+
+        <div id="div4" style="display:none;">    
+
+            <div class="container">    
+                <form action="#" accept-charset="utf-8" id="sendEditForm">
+                    <div class="input-group">
+                        <span class="input-group-addon">Название:</span>
+                        <input type="text" name="actionName" value="FSSP_GET" readonly="true" class="form-control" id="a_name">            
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">Описание:</span>            
+                        <!--<input type="textarea" name="actionDescription" value="123" class="form-control">-->
+                        <textarea name="actionDescription" value="1233" class="form-control" id="a_description"></textarea>            
+                    </div>
+                    <br>        
+                    <div class="input-group">
+                        <span class="input-group-addon">Код ответа:</span>
+                        <input type="text" name="actionStatusCode" value="200" size="3" maxlength="3" class="form-control" id="a_statusCode">    
+                    </div>   
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">Папка</span>
+                        <input type="text" name="actionResponceFolder" value="FSSP" readonly="true" class="form-control" id="a_respFolder">
+                    </div>
+                    <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">Файл ответа:</span>
+                            <select name="actionFileAnsfer" id="actionFileAnsfer" class="form-control">
+                                <option value="Нет"></option>                
+                            </select>
+                            <div class="btn-group">
+                                <button class="btn btn-primary" type="button" name="b_refresh">Обновить список ответов</button>                
+                                <button class="btn btn-primary" type="button" name="b_createNewFile">Создать пустой</button>                
+                                <button class="btn btn-primary" type="button" name="b_createCloneFile">Создать на основе</button>
+                                <button class="btn btn-primary" type="button" name="b_editFile">Редактировать</button>                
+                            </div>            
+                        </div>        
+                        <div class="form-group custom-checkbox">
+                            <label>Авто-ответ:                
+                                <input type="checkbox" name="actionAutomatic" id="a_auto">
+                            </label>
+                        </div>                 
+                        <input type="hidden" name="e_selectedFile">            
+                        <input type="button" class="btn btn-info" name="b_backToMockList" value="Назад">
+                        <input type="submit" class="btn btn-success" value="Сохранить" />
+                </form>
             </div>
-            <br>
-            <div class="input-group">
-                <span class="input-group-addon">Файл ответа:</span>
-                <select name="actionFileAnsfer" id="actionFileAnsfer" class="form-control">
-                <option value="Нет"></option>                
-                </select>
-                <div class="btn-group">
-                    <button class="btn btn-primary" type="button">Создать пустой</button>                
-                    <button class="btn btn-primary" type="button">Создать на основе</button>
-                    <button class="btn btn-primary" type="button">Редактировать</button>                
-                </div>            
-            </div>        
-            <div class="form-group custom-checkbox">
-                <label>Авто-ответ:                
-                    <input type="checkbox" name="actionAutomatic" id="a_auto">
-                </label>
-            </div>                 
-            <input type="submit" class="btn" value="Сохранить" />
-        </form>
-    </div>
-</div> 
-
-<script type="text/javascript">
+        </div> 
 
 
-
-
-
-</script>
+        <!-- =============================== -->
+        <!--Форма редактирования ответа -->
+        <!-- =============================== -->
+        <!-- test model screen -->
+        <div class="modal fade" id="editFileAnsferModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h4 class="modal-title">
+                            <span id='titleModal'>Редактирование файла ответа</span>
+                        </h4>
+                        <div class="container" id='alertConteinerModal'>    
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#" accept-charset="utf-8" id="formTextResponce">            
+                            <div class="form-group">
+                                <textarea name="textResponce" id="textResponce" rows="20" required style="width: 100%"></textarea>
+                            </div>
+                     
+                            <div class="input-group">
+                                <span class="input-group-addon">Имя файла</span>
+                                <input type="text" name="f_fileName" size="40" required>            
+                            </div>
+                            <br>                            
+                            <input class="btn btn-success" value="Сохранить" type="submit">                                                            
+                            <input type="hidden" name="f_progectName">        
+                            <input type="hidden" name="f_rewrite">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
