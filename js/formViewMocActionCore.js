@@ -22,8 +22,7 @@ $(function(){
     });
 
     //Событие для открытия окна редактирования мока
-    $('table').delegate('a','click',function(e){
-        console.log(this.id);        
+    $('table').delegate('a','click',function(e){        
         $('#sName').text(this.id);        
         setMockActionToEdit(this.id);
         $('div[id^=div]').hide();
@@ -33,32 +32,16 @@ $(function(){
         ////getProjectsList();
         //getMocActionsResponceList('FNS');
     });
-
-    $('table').delegate('.checkboxx','change',function(e){
-        console.log($(this).val());
-        if(this.checked) // if changed state is "CHECKED"
-        {
-            //При установке выделения
-            console.log(this.checked);
-        }
-        else
-        {
-            //При снятии выделения
-            console.log(this.checked);
-        }
-
-    });
+    
 });
 
 
 function getMocActionsList(){
     $('#userHead').empty();
-    $('#userBody').empty();
-    //$('#userHead').append('<tr><th>Название сервиса</th><th>Описание</th><th>Папка</th><th>Файл ответа</th><th>Код</th><th>Авто/Ручной</th><th>Применить</th><tr>');
+    $('#userBody').empty();    
     $('#userHead').append('<tr><th>Название сервиса</th><th>Описание</th><th>Файл ответа</th><th>Код</th><th>Авто/Ручной</th><th>Применить</th><tr>');
     $.getJSON(connectionString+'/BlackMessa/getProjectsList', function(dataProject) {
-        for (var j = 0; j < dataProject.mockProjectsList.length; j++) {
-                //dataProject.mockProjectsList[i].actionResponceFolder
+        for (var j = 0; j < dataProject.mockProjectsList.length; j++) {                
                 $('#userBody').append('<tr class="users_row info" align="center" id="'+dataProject.mockProjectsList[j].actionResponceFolder+'"><td colspan="6">'+dataProject.mockProjectsList[j].actionResponceFolder+'</td></tr>');
                 var test_str = dataProject.mockProjectsList[j].actionResponceFolder;
                 setTableValue(test_str,'tr#'+test_str);
@@ -85,12 +68,9 @@ function setTableValueToProject(projectName, source) {
 
             if(data.mockActionList[i].actionFileAnsfer==''){
                 $('select#'+data.mockActionList[i].actionName).append('<option value="" selected>Не выбран</option>');
-            };       
-                //if(data.mockActionList[i].actionAutomatic==null){console.log('1')}
-                //console.log(data.mockActionList[i].actionAutomatic);
+            };                       
             }
-        });
-    // body...
+        });    
 };
 
 function setTableValue(projectName, source) {
@@ -112,13 +92,10 @@ function setTableValue(projectName, source) {
 
                 };
                 
-            };
-
-                //if(data.mockActionList[i].actionAutomatic==null){console.log('1')}
-                //console.log(data.mockActionList[i].actionAutomatic);
+            };           
             }
         });
-    // body...
+    
 };
 
 
@@ -143,7 +120,6 @@ function checked_select(argument,argument2) {
     if(argument==argument2) return 'selected';
 }
 
-function mockIsAutomatic(p_actionAutomatic){
-    //console.log(p_actionAutomatic=='Y');
+function mockIsAutomatic(p_actionAutomatic){    
     if(p_actionAutomatic=='Y'){return 'checked'}
 };
