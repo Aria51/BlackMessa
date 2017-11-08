@@ -179,7 +179,16 @@ function showMockList() {
 
 $(function() {
     $('#showdiv1').click(function() {
-        showMockList();
+        if(connectionString!='')
+            {showMockList();}
+        else{notificationWarning('Окружение не выбрано');}
+
+    });
+
+    $('#linkToHost').click(function() {
+        $('div[id^=div]').hide();        
+        getMockHostList();
+        $('#div7').show();
     });
     $('#showdiv2').click(function() {
         $('div[id^=div]').hide();
@@ -192,9 +201,9 @@ $(function() {
     });
  
     $('#showdiv4').click(function() {
-        $('div[id^=div]').hide();
-        //getMocActionsResponceList('FNS','#actionFileAnsfer');
-        $('#div4').show();
+        $('div[id^=div]').hide();        
+        getMockHostList();
+        $('#div7').show();
     });
     $('#editTextResponce').click(function() {
         /* Act on the event */
@@ -203,9 +212,9 @@ $(function() {
         $('#div5').show();        
     });
 
-   // $('#div1').show(function(){
-   //    getMocActionsList(); 
-   // }) 
+    $('#linkToHost').show(function(){
+       getMockHostList(); 
+    }) 
 })
 
 

@@ -39,7 +39,7 @@ function ter(_description, url, status, serviceName) {
 		+'">'
 		+ function () {
 			var t;
-			if (status==true){t= "Активен"}else{t= "Не активен"};
+			if (status==true){return "Активен"}else{return "Не активен"};
 			return t;
 		}()
 		+'</p>'						
@@ -48,7 +48,18 @@ function ter(_description, url, status, serviceName) {
 		+ serviceName
 		+'">Выбрать</button>'
 		+'</td>');
-	if(status==false){$('button#'+serviceName).attr('disabled','disabled');}
+	if(status==false){
+		$('button#'+serviceName).attr('disabled','disabled');
+		$('button#'+serviceName).removeClass('btn-info');
+		$('button#'+serviceName).addClass('btn-danger');
+	}else
+	{
+		if(url==connectionString){
+			$('button#'+serviceName).removeClass('btn-info');
+			$('button#'+serviceName).addClass('btn-success');
+			$('button#'+serviceName).text('Выбран');
+		}
+	}
 }
 
 function pingService() {	
@@ -85,15 +96,26 @@ function pingService() {
 
 $(function () {
 
-	$('#testt').click(function(event) {
-		console.log('55');
+	$('#b_updateServiceHost').click(function(event) {		
 		getMockHostList();
-	});
-	$('#testt1').click(function(event) {
-		console.log('erase');
-		//$('#hostListHead').empty();
-		$('#hostList').empty();
-	});
-	// body...
+	});	
+
+	$('#hostList').delegate('.button_u', 'click', function(e) {				
+		$('#showdiv1').text('Сервисы');
+		SetHostName(this.id);
+		$('#'+this.id).text('Выбран');
+	});		
 })
+
+
+function SetHostName(sName) {
+	$.each(hostMass,function() {
+		if(this.serviceName==sName){
+			connectionString=this.url;
+			connectionDescription=this.descriptions;
+			$('#linkToHost').text(connectionDescription);
+			showMockList();
+		}
+	});
+}
 
