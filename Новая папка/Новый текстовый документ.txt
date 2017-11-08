@@ -1,5 +1,0 @@
-<<<<<<< HEAD
-Test
-test2
-=======
->>>>>>> parent of d3584f5... Update Новый текстовый документ.txt
