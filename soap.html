@@ -1,0 +1,163 @@
+<html>
+<head>
+    <title>SOAPUI-HELPER by ASirtsov</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="js/jquery-3.2.1.min.js"></script>   
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/soap.js"></script>
+    <script src='js/utils/JsonUtils.js'></script>
+    <script src="js/connectionSetting.js"></script>
+    <script src="js/utils/notificationHelper.js"></script>
+    <script src="js/formViewMocActionCore.js"></script>
+    <script src="js/formMockHosts.js"></script>
+    <script src="setting/hosts.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/blackMessa_menu.css">    
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="js/utils/jquery.bootstrap-growl.min.js"></script>
+</head>
+<body>
+
+    <!--Меню -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">SOAPUI-HELPER</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="#" id="showdiv4">Выбор окружения</a></li> 
+                <li><a href="#" id="showdiv1">Сервисы</a></li>                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" id='linkToHost'><span class="glyphicon glyphicon-flag"></span>Выбор окружения</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <p></p>
+    <p></p>
+
+    <div id="div7" class="container">
+        <table class="table">
+            <thead id="hostListHead">
+                <tr>
+                    <th>Название</th>
+                    <th>URL</th>
+                    <th>Status</th>                                                
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody id="hostList"></tbody>
+        </table>
+        <button class="btn btn-info" id="b_updateServiceHost">Обновить</button>        
+    </div>
+
+
+
+    <!--Общая таблица с сервисами -->
+    <div id="div1" class="container" style="display:none;">
+        <div class="input-group">
+            <span class="input-group-addon"> Поиск</span>
+            <input class="form-control" id="myInput" type="text" placeholder="Поиск..">
+        </div>
+        
+        <table id="users" class="table">    
+            <thead id="userHead"></thead>
+            <tbody id="userBody"></tbody>
+        </table>
+    </div>
+    <!--Конец. Общая таблица с сервисами -->
+
+
+    <!-- =============================== -->
+    <!--    Редактирование сервиса       -->
+    <!-- =============================== -->    
+
+    <div id="div4" style="display:none;">    
+
+        <div class="container">    
+            <form action="#" accept-charset="utf-8" id="sendEditForm">
+                <div class="input-group">
+                    <span class="input-group-addon">Название:</span>
+                    <input type="text" name="actionName" value="FSSP_GET" readonly="true" class="form-control" id="a_name">            
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">Описание:</span>            
+                    <!--<input type="textarea" name="actionDescription" value="123" class="form-control">-->
+                    <textarea name="actionDescription" value="1233" class="form-control" id="a_description"></textarea>            
+                </div>
+                <br>        
+                <div class="input-group">
+                    <span class="input-group-addon">Код ответа:</span>
+                    <input type="text" name="actionStatusCode" value="200" size="3" maxlength="3" class="form-control" id="a_statusCode">    
+                </div>   
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">Папка</span>
+                    <input type="text" name="actionResponceFolder" value="FSSP" readonly="true" class="form-control" id="a_respFolder">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">Файл ответа:</span>
+                    <select name="actionFileAnsfer" id="actionFileAnsfer" class="form-control">
+                        <option value="Нет"></option>                
+                    </select>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="button" name="b_refresh">Обновить список ответов</button>                
+                        <button class="btn btn-primary" type="button" name="b_createNewFile">Создать пустой</button>                
+                        <button class="btn btn-primary" type="button" name="b_createCloneFile">Создать на основе</button>
+                        <button class="btn btn-primary" type="button" name="b_editFile">Редактировать</button>                
+                    </div>            
+                </div>        
+                <div class="form-group custom-checkbox">
+                    <label>Авто-ответ:                
+                        <input type="checkbox" name="actionAutomatic" id="a_auto">
+                    </label>
+                </div>                 
+                <input type="hidden" name="e_selectedFile">            
+                <input type="button" class="btn btn-info" name="b_backToMockList" value="Назад">
+                <input type="submit" class="btn btn-success" value="Сохранить" />
+            </form>
+        </div>
+    </div> 
+
+
+    <!-- =============================== -->
+    <!--Форма редактирования ответа -->
+    <!-- =============================== -->
+    <!-- test model screen -->
+    <div class="modal fade" id="editFileAnsferModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">
+                        <span id='titleModal'>Редактирование файла ответа</span>
+                    </h4>
+                    <div class="container" id='alertConteinerModal'>    
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form action="#" accept-charset="utf-8" id="formTextResponce">            
+                        <div class="form-group">
+                            <textarea name="textResponce" id="textResponce" rows="20" required style="width: 100%"></textarea>
+                        </div>
+                        
+                        <div class="input-group">
+                            <span class="input-group-addon">Имя файла</span>
+                            <input type="text" name="f_fileName" size="40" required>            
+                        </div>
+                        <br>                            
+                        <input class="btn btn-success" value="Сохранить" type="submit">                                                            
+                        <input type="hidden" name="f_progectName">        
+                        <input type="hidden" name="f_rewrite">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
