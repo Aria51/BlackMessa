@@ -4,21 +4,9 @@ function getMockHostList() {
 
 	pingService();
 	$.each(hostMass, function () {
-		tt=this;
-				//tt.status=pingService(tt.url);
+		tt=this;				
 				ter(tt.descriptions,tt.url,tt.statuss,tt.serviceName);					
 			}); 
-
-	$.each(hostMass, function () {
-
-
-		$.when(resp=$.getJSON(this.url + '/BlackMessa/pingService')
-			).then(function () {							
-
-			}, function () {
-
-			})
-		});
 };
 
 
@@ -84,11 +72,7 @@ function pingService() {
 		});
 
 	});
-	console.log(tt.statuss);
-
-	var resp;
 	
-	return resp;
 };
 
 
